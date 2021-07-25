@@ -1,0 +1,28 @@
+{
+    "name": "@melody-core/housekeeper-dean",
+    "version": "1.0.1",
+    "description": "dean(蒂安)，为您的行程提供管理服务",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "bin": {
+        "dean": "./index.js"
+    },
+    "license": "ISC",
+    "dependencies": {
+        "commander": "^8.0.0"
+    },
+    "contributors": [
+        {
+          "name": "wxydesign",
+          "email": "18210711176@163.com",
+          "url": "https://github.com/melodyWxy"
+        },
+        {
+          "name": "amjanney",
+          "email": "1547702880@qq.com",
+          "url": "https://github.com/amjanney"
+        }
+    ]
+}

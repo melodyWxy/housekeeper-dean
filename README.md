@@ -37,12 +37,12 @@ dean add
 
 ### 更新日程
 ```shell
-dean update [index]
+dean update <index>
 ```
 
 ### 删除日程
 ```shell
-dean remove [index]
+dean remove <index>
 ```
 
 

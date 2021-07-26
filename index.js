@@ -8,17 +8,33 @@ class Main {
     program
       .version(require("./package.json").version)
       .option("-v, --version", "查看当前版本");
+    
+    // 查询日程
+    program.command("search")
+      .description( "测试命令2")
+      .action(async (arg)=>{
+          // todosth
+          console.log(arg);
+      })
 
-    // 注册命令test1
-    program.command("test <arg>")
+    // 增加日程
+    program.command("add")
         .description('测试命令1')
         .action(async (pk)=>{
              // todosth
             console.log('test1命令的参数:', pk);
         })
 
-    // 注册命令 test2
-    program.command("test2 [arg]")
+    // 更新日程
+    program.command("update [arg]")
+        .description( "测试命令2")
+        .action(async (arg)=>{
+            // todosth
+            console.log(arg);
+        })
+
+    // 删除日程
+    program.command("remove [arg]")
         .description( "测试命令2")
         .action(async (arg)=>{
             // todosth

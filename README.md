@@ -26,13 +26,7 @@ melody dean search
 
 ### 查看日程
 ```shell
-dean search [id]
-
-# 查看自己所有的密码组
 dean search
-
-# 查看某个id对应的组
-dean search [id]
 
 ```
 ### 新增日程
@@ -43,12 +37,12 @@ dean add
 
 ### 更新日程
 ```shell
-dean update [id]
+dean update [index]
 ```
 
 ### 删除日程
 ```shell
-dean remove [id]
+dean remove [index]
 ```
 
 

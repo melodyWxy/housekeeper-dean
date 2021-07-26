@@ -5,8 +5,12 @@ const fs = require('fs');
 const path = require('path');
 const cache = require('./cache/index.json');
 const inquirer = require("inquirer");
-const moment = require('moment');
+const getInqConfig = require('./inq.config');
+const chalk = require('chalk');
+
+
 const program = new Command();
+
 class Main {
    start() {
     // 版本
@@ -17,55 +21,74 @@ class Main {
     // 查询日程
     program.command("search")
       .description( "查询日程")
-      .action(async (arg)=>{
+      .action( async ()=>{
           // todosth
-          console.log('查询日程');
-          console.table(cache);
+          if(!cache.length){
+            console.log(chalk.yellow('💁 您暂时没有任何日程,请执行dean add命令添加日程!'));
+            return ;
+          }
+          console.log(chalk.blue('💁 为您展示日程列表:'));
+          const list = (cache||[]).map(item => ({
+            "日程标题": item.title,
+            "日程起止时间": `${item.startTime} / ${item.endTime}`,
+            "日程描述":  item.desc
+          }))
+          console.table(list);
       })
 
     // 增加日程
     program.command("add")
-        .description('增加日程')
-        .action(async (pk)=>{
-            console.info('增加日程');
-            const inqres = await inquirer.prompt([{
-              type: 'input',
-              message: `🎵请输日程描述:`,
-              name: "desc"
-            }])
-            if (inqres.desc) {
-              cache.push({
-                "createTime": moment().format('YYYY-MM-DD HH:mm:ss'),
-                "desc": inqres.desc
-              })
-              this.writeFile(cache);
+        .description('添加日程')
+        .action(async ()=>{
+            console.info(chalk.blue('💁 添加日程'));
+            const defaultData = {
+              title: `日程${cache.length}`
             }
+            const inqres = await inquirer.prompt(getInqConfig(defaultData))
+            cache.push({
+              ...inqres,
+              createTime: Date.now()
+            });
+            this.writeFile(cache);
+            console.info(chalk.green("💁 日程添加成功!"));
         })
 
     // 更新日程
-    program.command("update [id] [desc]")
+    program.command("update <index>")
         .description( "更新日程")
-        .action(async (id, desc)=>{
+        .action(async (index)=>{
             // todosth
-            console.log('更新日程', id, desc);
-            const update_id = Number(id);
-            cache.map((item, index) => {
-              if (index === update_id) {
-                return item.desc = desc;
-              }
-            })
+            const update_id = Number(index);
+            if((!update_id && (update_id !== 0)) || update_id < 0 || update_id >= cache.length){
+              console.error("💁 参数无效!");
+              return
+            }
+            console.log(chalk.blue('💁 更新日程'));
+            const defaultData = cache[index];
+            const inqres = await inquirer.prompt(getInqConfig(defaultData))
+            cache[index] = {
+              ...defaultData,
+              ...inqres
+            };
             this.writeFile(cache);
+            console.info(chalk.green("💁 日程更新成功!"));
         })
 
     // 删除日程
-    program.command("remove [id]")
+    program.command("remove <index>")
         .description( "删除日程")
         .action(async (id)=>{
             // todosth
-            console.log('删除日程', id);
+  
             const update_id = Number(id);
+            if((!update_id && (update_id !== 0)) || update_id < 0 || update_id >= cache.length){
+              console.error("💁 参数无效!");
+              return
+            }
+            console.log(chalk.blue('💁 删除日程中……'));
             cache.splice(update_id, 1);
             this.writeFile(cache);
+            console.log(chalk.green("💁 日程删除成功!"));
         })
 
     // 解析环境参数，不要删除
@@ -75,7 +98,8 @@ class Main {
     try {
       fs.writeFileSync(path.resolve(__dirname, './cache/index.json'), JSON.stringify(file, null, 4));
     } catch (e) {
-      console.error('🎵日程添加失败，你个完犊子怂货！！！');
+      console.error(e);
+      console.error('💁 日程写入失败。');
       process.exit();
     }
   }

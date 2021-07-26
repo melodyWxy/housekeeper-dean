@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 const { Command } = require("commander");
-const program = new Command();
 const fs = require('fs');
 const path = require('path');
 const cache = require('./cache/index.json');
 const inquirer = require("inquirer");
-
+const moment = require('moment');
+const program = new Command();
 class Main {
    start() {
     // 版本
@@ -35,7 +35,7 @@ class Main {
             }])
             if (inqres.desc) {
               cache.push({
-                "createTime": "2021-07-26 00:00:00",
+                "createTime": moment().format('YYYY-MM-DD HH:mm:ss'),
                 "desc": inqres.desc
               })
               this.writeFile(cache);

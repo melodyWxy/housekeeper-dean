@@ -1,6 +1,6 @@
 {
     "name": "@melody-core/housekeeper-dean",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "description": "dean(蒂安)，为您的行程提供管理服务",
     "main": "index.js",
     "scripts": {

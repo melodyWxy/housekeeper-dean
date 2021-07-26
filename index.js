@@ -11,34 +11,34 @@ class Main {
     
     // 查询日程
     program.command("search")
-      .description( "测试命令2")
+      .description( "查询日程")
       .action(async (arg)=>{
           // todosth
-          console.log(arg);
+          console.log('查询日程');
       })
 
     // 增加日程
     program.command("add")
-        .description('测试命令1')
+        .description('增加日程')
         .action(async (pk)=>{
              // todosth
-            console.log('test1命令的参数:', pk);
+            console.log('增加日程');
         })
 
     // 更新日程
-    program.command("update [arg]")
-        .description( "测试命令2")
-        .action(async (arg)=>{
+    program.command("update [id]")
+        .description( "更新日程")
+        .action(async (id)=>{
             // todosth
-            console.log(arg);
+            console.log('更新日程', id);
         })
 
     // 删除日程
-    program.command("remove [arg]")
-        .description( "测试命令2")
-        .action(async (arg)=>{
+    program.command("remove [id]")
+        .description( "删除日程")
+        .action(async (id)=>{
             // todosth
-            console.log(arg);
+            console.log('删除日程', id);
         })
 
     // 解析环境参数，不要删除

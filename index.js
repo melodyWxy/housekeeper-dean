@@ -5,6 +5,8 @@ const program = new Command();
 const fs = require('fs');
 const path = require('path');
 const cache = require('./cache/index.json');
+const inquirer = require("inquirer");
+
 class Main {
    start() {
     // 版本
@@ -26,25 +28,30 @@ class Main {
         .description('增加日程')
         .action(async (pk)=>{
             console.info('增加日程');
-            cache.push({
-              "createTime": "2021-07-26 00:00:00",
-              "startTime": "2021-07-26 00:00:00",
-              "endTime": "2021-07-28 00:00:00",
-              "des": "这是一段描述"
-            })
-            this.writeFile(cache);
+            const inqres = await inquirer.prompt([{
+              type: 'input',
+              message: `🎵请输日程描述:`,
+              name: "desc"
+            }])
+            if (inqres.desc) {
+              cache.push({
+                "createTime": "2021-07-26 00:00:00",
+                "desc": inqres.desc
+              })
+              this.writeFile(cache);
+            }
         })
 
     // 更新日程
-    program.command("update [id] [des]")
+    program.command("update [id] [desc]")
         .description( "更新日程")
-        .action(async (id, des)=>{
+        .action(async (id, desc)=>{
             // todosth
-            console.log('更新日程', id, des);
+            console.log('更新日程', id, desc);
             const update_id = Number(id);
             cache.map((item, index) => {
               if (index === update_id) {
-                return item.des = des;
+                return item.desc = desc;
               }
             })
             this.writeFile(cache);
